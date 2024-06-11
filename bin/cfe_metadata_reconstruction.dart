@@ -3,6 +3,7 @@ import 'package:cfe_metadata_reconstruction/macro.dart';
 
 void main(List<String> arguments) {
   for (var obj in TestClass.objects) {
+    print(obj.count);
     print(obj.annotations);
   }
 }

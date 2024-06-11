@@ -38,6 +38,8 @@ macro class TestMacro implements ClassDeclarationsMacro, ClassDefinitionMacro {
         NamedTypeAnnotationCode(name: generateObjectDef),
         "(",
         await createMetaList(method.metadata, builder),
+        ",",
+        "${method.metadata.length}",
         ")"
       ]));
     }
@@ -58,7 +60,8 @@ macro class TestMacro implements ClassDeclarationsMacro, ClassDefinitionMacro {
 
 class GeneratedObject {
   final List<Object> annotations;
-  GeneratedObject(this.annotations);
+  final int count;
+  GeneratedObject(this.annotations, this.count);
 }
 
 extension BuilderExtension on TypePhaseIntrospector {
@@ -134,7 +137,6 @@ Future<Code> createMetaList(Iterable<MetadataAnnotation> metadata, DefinitionBui
   var parts = <Object>["["];
   for (var meta in metadata) {
     if (meta is ConstructorMetadataAnnotation) {
-      var type = await builder.resolve(meta.type.code);
       parts.add(recreateAnnotation(meta));
       parts.add(",");
     } else if (meta is IdentifierMetadataAnnotation) {
